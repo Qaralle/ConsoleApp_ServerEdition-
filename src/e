@@ -1,0 +1,55 @@
+package com.company;
+
+import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetSocketAddress;
+import java.net.SocketAddress;
+import java.nio.Buffer;
+import java.nio.ByteBuffer;
+import java.nio.channels.DatagramChannel;
+
+
+public class Server
+{
+    public static void main(String args[])
+    {
+        try
+        {
+            //Создаем сокет
+
+            SocketAddress a = new InetSocketAddress(7002);
+            DatagramSocket socket = new DatagramSocket();
+            DatagramChannel sock =DatagramChannel.open();
+            sock.bind(a);
+
+            //буфер для получения входящих данных
+            byte[] buffer = new byte[65536];
+            ByteBuffer incoming = ByteBuffer.wrap(buffer);
+            incoming.clear();
+
+            System.out.println("Ожидаем данные...");
+
+            while(true)
+            {
+                //Получаем данные
+                sock.receive(incoming);
+                byte[] data = incoming.array();
+                String s = new String(data, 0, 65536);
+
+                System.out.println("Сервер получил: " + s);
+
+                //Отправляем данные клиенту
+
+
+            }
+        }
+
+        catch(IOException e)
+        {
+            System.err.println("IOException " + e);
+        }
+    }
+
+
+}
